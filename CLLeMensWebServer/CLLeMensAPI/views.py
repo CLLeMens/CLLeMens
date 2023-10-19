@@ -12,6 +12,7 @@ import hashlib
 from pathlib import Path
 import openai
 
+from .util.save_api_key import write_api_key
 load_dotenv()
 
 
@@ -237,7 +238,7 @@ class OpenAITokenView(APIView):
             return Response({'message': 'Token is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
         # If the above step was successful, you can save or update the token
-        token, created = OpenAIToken.objects.update_or_create(id=1, defaults={'filename': submitted_token})
+        write_api_key(submitted_token)
 
         return Response({'message': 'Token was accepted'}, status=status.HTTP_200_OK)
 
