@@ -3,7 +3,7 @@ import {Typography} from 'antd';
 
 const ChatMessage = ({type, content}) => {
     const isUser = type === "user";
-    const backgroundColor = isUser ? "#1890ff" : "#f5f5f5"; // blau für User, grau für Bot
+    const backgroundColor = isUser ? "#1890ff" : "#e6e6e6"; // blau für User, grau für Bot
     const color = isUser ? "#ffffff" : "#000000"; // Textfarbe
 
     return (

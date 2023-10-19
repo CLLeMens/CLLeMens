@@ -3,6 +3,7 @@ import {Input, Button, Divider, Typography} from 'antd';
 import ChatMessage from "./ChatMessage.jsx";
 import {SEND_MESSAGE} from "../api/endpoints.js";
 import {makeRequest} from "../api/api.js";
+import Typing from "./Typing.jsx";
 
 const {Title} = Typography;
 
@@ -10,24 +11,32 @@ const {Title} = Typography;
 const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+
     const messagesEndRef = useRef(null);
 
     const handleSend = async () => {
         if (inputValue.trim() !== '') {
-            setMessages([...messages, { type: 'user', content: inputValue.trim() }]);
+            setIsTyping(true);  // Set isTyping to true when sending a request
+            setMessages([...messages, {type: 'user', content: inputValue.trim()}]);
 
             try {
                 // Nachricht an das Backend senden
-                const response = await makeRequest('POST', SEND_MESSAGE, { message: inputValue.trim() });
+                const response = await makeRequest('POST', SEND_MESSAGE, {message: inputValue.trim()});
 
                 // Antwort vom Backend in den Chat einfügen
                 if (response && response.reply) {
-                    setMessages(prevMessages => [...prevMessages, { type: 'bot', content: response.reply }]);
+                    setMessages(prevMessages => [...prevMessages, {type: 'bot', content: response.reply}]);
                 }
 
             } catch (error) {
                 console.error("Fehler beim Senden der Nachricht:", error);
-                setMessages(prevMessages => [...prevMessages, { type: 'bot', content: "Es gab ein Problem beim Senden Ihrer Nachricht." }]);
+                setMessages(prevMessages => [...prevMessages, {
+                    type: 'bot',
+                    content: "Es gab ein Problem beim Senden Ihrer Nachricht."
+                }]);
+            } finally {
+                setIsTyping(false);  // Set isTyping to false when receiving a response
             }
 
             setInputValue('');
@@ -87,7 +96,9 @@ const Chat = () => {
                             <ChatMessage type={message.type} content={message.content}/>
                         </div>
                     ))}
-                    <div ref={messagesEndRef}></div>
+                    <div ref={messagesEndRef}>
+                        {isTyping ? <Typing /> : null}
+                    </div>
                 </div>
                 <Divider/>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>

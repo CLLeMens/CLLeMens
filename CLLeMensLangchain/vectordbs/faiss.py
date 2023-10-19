@@ -1,7 +1,5 @@
 import os
-
 import pandas as pd
-from IPython.display import display
 from dotenv import load_dotenv, find_dotenv
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
