@@ -11,10 +11,12 @@ import json
 import hashlib
 from pathlib import Path
 import openai
+import logging
 
 from .util.save_api_key import write_api_key
-load_dotenv()
 
+load_dotenv()
+logger = logging.getLogger(__name__)
 
 class FileUploadView(APIView):
     def __init__(self):
@@ -209,7 +211,8 @@ class UpdateFileNamesView(APIView):
             return Response({'message': 'File names successfully updated.'}, status=200)
 
         except Exception as e:
-            return Response({'error': str(e)}, status=500)
+            logging.error(e)
+            return Response({'error': "Something went wrong!"}, status=500)
 
 
 class OpenAITokenView(APIView):
@@ -252,7 +255,8 @@ class ChatView(APIView):
         try:
             print("GET")
         except Exception as e:
-            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.error(e)
+            return Response({'message': "invalid request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
         sent_message = request.data.get('message')
