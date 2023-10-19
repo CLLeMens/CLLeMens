@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import UploadedFile, OpenAIToken, ApprovedFileTyps
+from .models import UploadedFile, ApprovedFileTyps
 # Register your models here.
 
 admin.site.register(UploadedFile)
-admin.site.register(OpenAIToken)
 admin.site.register(ApprovedFileTyps)

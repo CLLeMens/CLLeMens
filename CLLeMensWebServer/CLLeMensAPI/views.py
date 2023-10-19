@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from CLLeMensLangchain.utils.FileTypeHandler import FileTypeHandler
 from CLLeMensLangchain.vectordbs.faiss import faissDB
-from .models import UploadedFile, OpenAIToken, ApprovedFileTyps
+from .models import UploadedFile, ApprovedFileTyps
 import os
 from django.conf import settings
 import json
@@ -214,15 +214,7 @@ class UpdateFileNamesView(APIView):
 
 class OpenAITokenView(APIView):
     def get(self, request):
-        try:
-            # Try to retrieve the first (and hopefully only) token from the database
-            token = OpenAIToken.objects.first()
-            if token:
-                return Response({'token': token.filename}, status=status.HTTP_200_OK)
-            else:
-                return Response({'message': 'No token found.'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'message': 'BEISPIEL TOKEN'}, status=status.HTTP_200_OK)
 
     def post(self, request):
         submitted_token = request.data.get('token')
@@ -256,7 +248,6 @@ class ChatView(APIView):
 
     def post(self, request):
         sent_message = request.data.get('message')
-        token = OpenAIToken.objects.first()
         answer = self.db.prompt(sent_message)
         if not answer:
             return Response({'message': 'Is the token present and correct?.'}, status=status.HTTP_401_UNAUTHORIZED)

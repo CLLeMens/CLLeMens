@@ -112,7 +112,7 @@ class VideoLoader(Loaders):
         try:
             # Convert video to audio
             audio_path = self.video_to_audio()
-            print(audio_path)
+
             # Transcribe audio
             transcription = self.transcribe_audio(audio_path)
 
@@ -122,7 +122,7 @@ class VideoLoader(Loaders):
 
             cache_path = path.replace("uploads", "audio_cache")
             cache_base_path = os.path.dirname(cache_path)
-            print(cache_base_path)
+
             # Create the cache directory if it doesn't exist
             if not os.path.exists(cache_base_path):
                 os.makedirs(cache_base_path)
@@ -137,7 +137,7 @@ class VideoLoader(Loaders):
             try:
                 content = TextLoader(cache_file_path)
                 pages = content.load()
-                print(pages)
+
             except Exception as e:
                 return f"Error loading audio: {str(e)}"
 

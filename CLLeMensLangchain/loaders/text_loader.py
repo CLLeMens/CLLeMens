@@ -22,9 +22,8 @@ class TxtLoader(Loaders):
         """
         try:
             content = TextLoader(self.file_path)
-            print(content)
             pages = content.load()
-            print(pages)
+
         except Exception as e:
             return f"Error loading Text File: {str(e)}"
 

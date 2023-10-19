@@ -17,7 +17,7 @@ class faissDB():
     def __init__(self, base_dir):
         load_dotenv(find_dotenv())
         self.dbPath = os.path.join(base_dir, '', 'vectordbs/faiss/')
-        print(base_dir.parent)
+
         # Check if the FAISS database exists and if its contains the index.faiss file
         if not os.path.exists(self.dbPath) and not os.path.exists(self.dbPath + "index.faiss"):
 
@@ -57,12 +57,16 @@ class faissDB():
     # Lookup the document in the FAISS DB
     def show_vstore(self, store):
         vector_df = self.store_to_df(store)
-        display(vector_df)
+        return vector_df
 
     # Add a document to the FAISS DB
     def append_to_db(self, document):
         """Add a document to the database. (preferably a chunked document)
         :param document: The document to be added to the database."""
+
+        # Count the number of documents in the FAISS DB before adding the new document
+        doc_counter_before = self.show_vstore(self.db)
+        print("Doc Counter Before: ", doc_counter_before.shape[0])
 
         # Create a FAISS DB with the new document
         extension = FAISS.from_documents(document, OpenAIEmbeddings(disallowed_special=()))
@@ -73,10 +77,19 @@ class faissDB():
         # Save the new FAISS DB
         self.db.save_local(self.dbPath)
 
+
+        # Count the number of documents in the FAISS DB after adding the new document
+        doc_counter_after = self.show_vstore(self.db)
+        print("Doc Counter After: ", doc_counter_after.shape[0])
+
     def delete_from_db(self, document):
         """
         Delete a document from the database.
         :param document: The name of the document to be deleted from the database"""
+
+        # Count the number of documents in the FAISS DB before deleting the document
+        doc_counter_before = self.show_vstore(self.db)
+        print("Doc Counter Before: ", doc_counter_before.shape[0])
 
         # Convert the FAISS DB to a Pandas Dataframe
         vector_df = self.store_to_df(self.db)
@@ -89,6 +102,10 @@ class faissDB():
 
         # Save the new FAISS DB
         self.db.save_local(self.dbPath)
+
+        # Count the number of documents in the FAISS DB after deleting the document
+        doc_counter_after = self.show_vstore(self.db)
+        print("Doc Counter After: ", doc_counter_after.shape[0])
 
 
 
