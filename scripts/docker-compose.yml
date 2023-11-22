@@ -17,3 +17,15 @@ services:
       - type: bind
         source: ./../CLLeMensWebServer
         target: /db
+
+  localtunnel_service:
+    build:
+      context: .
+      dockerfile: localtunnel.Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/app
+    ports:
+      - "8000:8000"
+    command: /bin/sh -c "chmod +x /usr/src/app/run_localtunnel_and_update_lambda.sh && /usr/src/app/run_localtunnel_and_update_lambda.sh"
