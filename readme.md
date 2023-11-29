@@ -78,4 +78,4 @@ Both servers should now be running. Open your web browser and navigate to the re
 - The frontend will run on Port 3000.
 
 
-## If you change the DB remember to re-dump it (docker-compose up -d db_dump)
+## If you change the DB remember to re-dump it (docker-compose up -d db_dump). 
