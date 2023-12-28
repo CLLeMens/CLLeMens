@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-33p*uu%9zxt2_4^^sa4fkxy7$m(%&#iuik3x9-55ffaou@26qr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'
+ALLOWED_HOSTS = ['ec2-51-21-129-87.eu-north-1.compute.amazonaws.com','51.21.129.87'
 ]
 
 # Application definition
@@ -108,10 +108,16 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = [
+        'http://localhost:3000',
+        'http://51.21.129.87:3000',
+        'http://ec2-51-21-129-87.eu-north-1.compute.amazonaws.com:3000'
+        ]
 CORS_ORIGIN_WHITELIST = [
+        'http://51.21.129.87:3000',    
     'http://localhost:3000',
-    'http://172.20.10.2:3000'
+    'http://172.20.10.2:3000',
+    'http://ec2-51-21-129-87.eu-north-1.compute.amazonaws.com:3000'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
