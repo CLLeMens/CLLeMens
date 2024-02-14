@@ -1,4 +1,4 @@
-export const BASE_URL = "http://ec2-51-21-129-87.eu-north-1.compute.amazonaws.com:8000/cllemens-api/"
+export const BASE_URL = "http://ec2-51-20-7-171.eu-north-1.compute.amazonaws.com:8000/cllemens-api/"
 export const UPLOAD = BASE_URL + "upload/"
 export const GET_FILES = BASE_URL + "list-all-files/"
 export const FILE_TYPES = BASE_URL + "list-all-filetypes/"

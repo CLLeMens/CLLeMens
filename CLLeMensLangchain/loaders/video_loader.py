@@ -34,9 +34,10 @@ class VideoLoader(Loaders):
         # Split the filepath into path and extension
         path, _ = os.path.splitext(self.file_path)
 
-        cache_path = path.replace("uploads", "video_cache")
+        cache_path = path.replace("uploads", "video_cache") 
         cache_base_path = os.path.dirname(cache_path)
-
+        print("Cache Path: ", cache_path)
+        print("Cache Base Path: ", cache_base_path)
         # Create the cache directory if it doesn't exist
         if not os.path.exists(cache_base_path):
             os.makedirs(cache_base_path)
@@ -56,7 +57,7 @@ class VideoLoader(Loaders):
         # Free resources
         audio.close()
         video.close()
-
+        print(audio_path)
         return audio_path
 
 
@@ -90,10 +91,13 @@ class VideoLoader(Loaders):
             chunk.export(temp_file_name, format="mp3")
 
             # Transcribe the chunk using OpenAI Whisper
-            with open(temp_file_name, "rb") as audio_file:
-                transcript = openai.Audio.transcribe("whisper-1", audio_file)
-                full_transcription += transcript['text'] + " "
-
+            try:
+                with open(temp_file_name, "rb") as audio_file:
+                    print("bearbeite audiofile:"+temp_file_name)
+                    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+                    full_transcription += transcript['text'] + " "
+            except Exception as e:
+                print(str(e))
             # Delete the temporary chunk file
             os.remove(temp_file_name)
 
@@ -115,11 +119,11 @@ class VideoLoader(Loaders):
 
             # Transcribe audio
             transcription = self.transcribe_audio(audio_path)
-
+            print("Transcription")
+            print(transcription)
 
             # Split the filepath into path and extension
             path, _ = os.path.splitext(self.file_path)
-
             cache_path = path.replace("uploads", "audio_cache")
             cache_base_path = os.path.dirname(cache_path)
 

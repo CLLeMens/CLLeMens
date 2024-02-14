@@ -16,6 +16,7 @@ class FileTypeHandler:
             '.jpg': self.process_image_file,
             '.mp3': self.process_audio_file,
             '.wav': self.process_audio_file,
+            '.pdf': self.process_pdf_file,
             'application/pdf': self.process_pdf_file,
             '.pdf': self.process_pdf_file,
             '.mp4': self.process_video_file,
@@ -41,8 +42,12 @@ class FileTypeHandler:
     def process_pdf_file(self, file_path):
         print("Processing pdf file:", file_path)
         pdfLoader = PdfLoader(file_path)
+        print("loader initialized")
         pages = pdfLoader.load()
+        print(pages)
+        print("loaded pages")
         chunks = pdfLoader.chunkDocument(pages, chunkSize=700)
+        print("Chunked")
         return chunks
 
     def process_image_file(self, file_path):
@@ -62,8 +67,8 @@ class FileTypeHandler:
         print("Processing video file:", file_path)
         videoLoader = VideoLoader(file_path)
         pages = videoLoader.load()
-        # chunks = videoLoader.chunkDocument(pages, chunkSize=700)
-        return 1
+        chunks = videoLoader.chunkDocument(pages, chunkSize=700)
+        return chunks
 
 
     def process_unknown_file(self, file_path):

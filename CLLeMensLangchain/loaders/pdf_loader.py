@@ -7,7 +7,7 @@ from langchain.docstore.document import Document
 
 
 class PdfLoader(Loaders):
-    def __init__(self, file_path: str, extract_images: bool = True):
+    def __init__(self, file_path: str, extract_images: bool = False):
         """
         Initialize PdfLoader.
 
@@ -43,5 +43,6 @@ class PdfLoader(Loaders):
             chunk_overlap=20,
             add_start_index=True,
         )
+        print(document)
         chunked_content = text_splitter.split_documents(document)
         return chunked_content
