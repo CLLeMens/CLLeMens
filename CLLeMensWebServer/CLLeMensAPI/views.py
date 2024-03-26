@@ -10,7 +10,7 @@ from django.conf import settings
 import json
 import hashlib
 from pathlib import Path
-import openai
+from openai import OpenAI
 import logging
 
 from .util.save_api_key import write_api_key
@@ -222,13 +222,13 @@ class OpenAITokenView(APIView):
     def post(self, request):
         submitted_token = request.data.get('token')
         print(submitted_token)
+        client = OpenAI(api_key=submitted_token)
         if not submitted_token:
             return Response({'message': 'Token is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if the token is valid
-        openai.api_key = submitted_token
         try:
-            openai.Completion.create(model="text-davinci-003", prompt="test", max_tokens=5)
+            client.completions.create(model="text-davinci-003", prompt="test", max_tokens=5)
         except:
             return Response({'message': 'Token is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 

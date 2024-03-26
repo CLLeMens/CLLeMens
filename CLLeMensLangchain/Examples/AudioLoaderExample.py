@@ -1,14 +1,15 @@
 import os
 import shutil
 from pydub import AudioSegment
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from dotenv import load_dotenv
 
 # Laden Sie die Umgebungsvariablen aus der .env-Datei
 load_dotenv()
 
 # Setzen Sie Ihren OpenAI API-Schlüssel aus der Umgebungsvariable
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def chunk_and_transcribe(audio_file_path, chunk_length_in_seconds=120):
@@ -42,8 +43,8 @@ def chunk_and_transcribe(audio_file_path, chunk_length_in_seconds=120):
 
         # Transcribe the chunk using OpenAI Whisper
         with open(temp_file_name, "rb") as audio_file:
-            transcript = openai.Audio.transcribe("whisper-1", audio_file)
-            full_transcription += transcript['text'] + " "
+            transcript = client.audio.transcribe("whisper-1", audio_file)
+            full_transcription += transcript.text + " "
 
         # Delete the temporary chunk file
         os.remove(temp_file_name)

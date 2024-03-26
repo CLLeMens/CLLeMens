@@ -6,15 +6,16 @@ from langchain.docstore.document import Document
 import os
 import shutil
 from pydub import AudioSegment
-import openai
+from openai import OpenAI
+
+
 from dotenv import load_dotenv
 
 
 # Load the environment variables from the .env file
 load_dotenv()
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Set OpenAI API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class AudioLoader(Loaders):
@@ -59,8 +60,8 @@ class AudioLoader(Loaders):
 
             # Transcribe the chunk using OpenAI Whisper
             with open(temp_file_name, "rb") as audio_file:
-                transcript = openai.Audio.transcribe("whisper-1", audio_file)
-                full_transcription += transcript['text'] + " "
+                transcript = client.audio.transcribe(model="whisper-1", file=audio_file)
+                full_transcription += transcript.text + " "
 
             # Delete the temporary chunk file
             os.remove(temp_file_name)

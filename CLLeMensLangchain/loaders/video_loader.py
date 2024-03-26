@@ -1,5 +1,5 @@
 import os
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -13,9 +13,8 @@ from langchain.docstore.document import Document
 
 # Load the environment variables from the .env file
 load_dotenv()
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Set OpenAI API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class VideoLoader(Loaders):
@@ -82,20 +81,21 @@ class VideoLoader(Loaders):
         # Loop over the audio file, chunk by chunk
         for i in range(num_chunks):
             # Extract the chunk
-            start_time = i * chunk_length
-            end_time = (i + 1) * chunk_length
-            chunk = audio[start_time:end_time]
+            try:
+                start_time = i * chunk_length
+                end_time = (i + 1) * chunk_length
+                chunk = audio[start_time:end_time]
 
             # Export the chunk to a temporary file
-            temp_file_name = os.path.join(cache_dir, f"temp_chunk_{i}.mp3")
-            chunk.export(temp_file_name, format="mp3")
+                temp_file_name = os.path.join(cache_dir, f"temp_chunk_{i}.mp3")
+                chunk.export(temp_file_name, format="mp3")
 
             # Transcribe the chunk using OpenAI Whisper
-            try:
+            
                 with open(temp_file_name, "rb") as audio_file:
                     print("bearbeite audiofile:"+temp_file_name)
-                    transcript = openai.Audio.transcribe("whisper-1", audio_file)
-                    full_transcription += transcript['text'] + " "
+                    transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file,)
+                    full_transcription += transcript.text + " "
             except Exception as e:
                 print(str(e))
             # Delete the temporary chunk file

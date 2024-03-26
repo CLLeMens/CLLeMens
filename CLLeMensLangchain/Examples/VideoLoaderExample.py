@@ -1,4 +1,6 @@
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from dotenv import load_dotenv
 from moviepy.editor import *
 import os
@@ -15,7 +17,6 @@ print(path)
 load_dotenv()
 
 # Set OpenAI API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Das Video laden
 video = VideoFileClip(video_path)
@@ -66,7 +67,7 @@ for i in range(num_chunks):
 
     # Transcribe the chunk using OpenAI Whisper
     with open(temp_file_name, "rb") as audio_file:
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
-        full_transcription += transcript['text'] + " "
+        transcript = client.audio.transcribe("whisper-1", audio_file)
+        full_transcription += transcript.text + " "
 
 print("FULL TRANSCRIPTION: ", full_transcription)
