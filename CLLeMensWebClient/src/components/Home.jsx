@@ -32,8 +32,7 @@ const Home = () => {
             {/* Features */}
             <Title level={2} style={{color: '#fff'}}>Features</Title>
             <Row gutter={16} className="card-container">
-
-                <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <Col xs={24} sm={24} md={7} lg={8} xl={8}>
                     <Card title="Robotic Assistance" className="feature-card">
                         <Paragraph>
                             Experience a seamless robotic assistant that intuitively follows you, offering immediate
@@ -46,7 +45,7 @@ const Home = () => {
                     </Card>
                 </Col>
 
-                <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <Col xs={24} sm={24} md={7} lg={8} xl={8}>
                     <Card title="Personalized Knowledge Base" className="feature-card">
                         <Paragraph>
                             Create a unique knowledge foundation by integrating diverse documents like PDFs, Word files,
@@ -61,7 +60,7 @@ const Home = () => {
                     </Card>
                 </Col>
 
-                <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <Col xs={24} sm={24} md={7} lg={8} xl={8}>
                     <Card title="Cutting-Edge Technologies" className="feature-card">
                         <Paragraph>
                             Leverage the power of GPT-4 for advanced language processing and comprehension.

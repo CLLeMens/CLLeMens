@@ -166,13 +166,14 @@ class DeleteFileView(APIView):
             # Delete the file entry from the database
             file_instance.delete()
 
-            self.db.delete_from_db(file_name)
+            self.db.delete_from_db(file_path)
 
             return Response({'message': 'File successfully deleted.'}, status=status.HTTP_200_OK)
 
         except UploadedFile.DoesNotExist:
             return Response({'message': 'File not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
+            print(e)
             return Response({'message': f'An error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

@@ -89,11 +89,14 @@ class faissDB():
         doc_counter_before = self.show_vstore(self.db)
         print("Doc Counter Before: ", doc_counter_before.shape[0])
 
+        # Reformat document path
+        document_name = document.replace("/", "\\")
+
         # Convert the FAISS DB to a Pandas Dataframe
         vector_df = self.store_to_df(self.db)
 
         # Get the chunk IDs of the document
-        chunks_list = vector_df[vector_df['document'] == document]['chunk_id'].tolist()
+        chunks_list = vector_df[vector_df['document'] == document_name]['chunk_id'].tolist()
 
         # Delete the document from the FAISS DB
         self.db.delete(chunks_list)

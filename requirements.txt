@@ -18,7 +18,6 @@ charset-normalizer==3.3.0
 click==8.1.7
 coloredlogs==15.0.1
 dataclasses-json==0.6.1
-deeplake==3.8.0
 dill==0.3.7
 Django==4.2.6
 django-cors-headers==4.2.0
@@ -39,7 +38,6 @@ jsonpointer==2.4
 langchain==0.0.311
 langdetect==1.0.9
 langsmith==0.0.43
-libdeeplake==0.0.83
 lxml==4.9.3
 marshmallow==3.20.1
 mpmath==1.3.0
