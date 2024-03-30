@@ -108,8 +108,6 @@ class faissDB():
         doc_counter_after = self.show_vstore(self.db)
         print("Doc Counter After: ", doc_counter_after.shape[0])
 
-
-
     def prompt(self, prompt="", temperature=0.9):  # todo: make the temperature configurable
         """Prompt the database with a given prompt.
         :param prompt: The prompt to be used.
@@ -128,6 +126,7 @@ class faissDB():
         retriever.search_kwargs['lambda_mult'] = '0.7'
         retriever.search_kwargs['k'] = 8
         print("loaded retriever")
+        print(retriever.get_relevant_documents(query=prompt))
 
         qa = ConversationalRetrievalChain.from_llm(
             llm=self.model, retriever=retriever, verbose=True)
