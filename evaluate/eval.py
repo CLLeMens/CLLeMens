@@ -1,7 +1,7 @@
 from datasets import Dataset
 from dotenv import load_dotenv
 from ragas import evaluate
-from ragas.metrics import faithfulness, answer_correctness
+from ragas.metrics import faithfulness, answer_correctness, context_precision, answer_relevancy, context_recall
 import pandas as pd
 import os
 
@@ -17,8 +17,15 @@ data_samples = {
     'ground_truth': df['Ground Truth'].tolist()
 }
 
-print(data_samples['answer'])
-
 dataset = Dataset.from_dict(data_samples)
-score = evaluate(dataset,metrics=[faithfulness,answer_correctness])
+score = evaluate(
+    dataset,
+    metrics=[
+        context_precision,
+        faithfulness,
+        answer_correctness,
+        answer_relevancy,
+        context_recall,
+    ],
+)
 print(score)
