@@ -13,7 +13,7 @@ df = pd.read_excel('testset.xlsx')
 data_samples = {
     'question': df['Question'].tolist(),
     'answer': df['Answer'].tolist(),
-    'contexts': df['Contexts'].apply(lambda x: [x] if pd.notna(x) else []).tolist(),
+    'contexts': df['Context'].apply(lambda x: [x] if pd.notna(x) else []).tolist(),
     'ground_truth': df['Ground Truth'].tolist()
 }
 

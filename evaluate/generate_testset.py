@@ -11,7 +11,7 @@ df = pd.read_excel('testset.xlsx')
 data_samples = {
     'question': df['Question'].tolist(),
     'answer': df['Answer'].tolist(),
-    'contexts': df['Contexts'].apply(lambda x: [x] if pd.notna(x) else []).tolist(),
+    'contexts': df['Context'].apply(lambda x: [x] if pd.notna(x) else []).tolist(),
     'ground_truth': df['Ground Truth'].tolist()
 }
 BASE_DIR = Path(__file__).resolve().parent.parent.joinpath('CLLeMensWebServer')
@@ -59,7 +59,7 @@ if all_equal_length:
             extended_data_samples.append({
                 'Question': question,
                 'Answer': answer,
-                'Contexts': context_df,
+                'Context': context_df,
                 'Ground Truth': data_samples['ground_truth'][idx],
             })
 else:
